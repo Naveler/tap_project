@@ -11,3 +11,4 @@
 </head>
 <body>
 <div class="container">
+<?php require_once APPROOT.'/views/inc/navbar.php'; ?>
