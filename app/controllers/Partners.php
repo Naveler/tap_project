@@ -8,16 +8,24 @@ class Partners extends Controller
      */
     public function __construct()
     {
-        $this->pagesModel = $this->model('Partner');
+        $this->partnerModel = $this->model('Partner');
     }
 
     public function index(){
         // echo 'index method is loaded<br>';
-        $partners = $this->pagesModel->getPatners();
+        $partners = $this->partnerModel->getPatners();
         $data = array(
             'title' => 'Koostööpartnerid',
             'partners' => $partners
         );
         $this->view('partners/index', $data);
+    }
+
+    public function show($id){
+        $partner = $this->partnerModel->getPartner($id);
+        $data = array(
+            'partner' => $partner
+        );
+        $this->view('partners/show', $data);
     }
 }
