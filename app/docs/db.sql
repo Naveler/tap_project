@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Loomise aeg: Mai 27, 2021 kell 10:55 EL
+-- Loomise aeg: Mai 27, 2021 kell 11:33 EL
 -- Serveri versioon: 10.4.19-MariaDB
 -- PHP versioon: 7.4.19
 
@@ -21,49 +21,83 @@ USE `kpr`;
 -- --------------------------------------------------------
 
 --
+-- Tabeli struktuur tabelile `activity`
+--
+
+DROP TABLE IF EXISTS `activity`;
+CREATE TABLE IF NOT EXISTS `activity` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Andmete tõmmistamine tabelile `activity`
+--
+
+INSERT INTO `activity` (`id`, `name`) VALUES
+(1, 'seinad'),
+(2, 'aknad');
+
+-- --------------------------------------------------------
+
+--
+-- Tabeli struktuur tabelile `activity_details`
+--
+
+DROP TABLE IF EXISTS `activity_details`;
+CREATE TABLE IF NOT EXISTS `activity_details` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Andmete tõmmistamine tabelile `activity_details`
+--
+
+INSERT INTO `activity_details` (`id`, `name`) VALUES
+(1, 'kipsseinad'),
+(2, 'puitseinad'),
+(3, 'plastaknad'),
+(4, 'puitaknad');
+
+-- --------------------------------------------------------
+
+--
 -- Tabeli struktuur tabelile `partners`
 --
 
 DROP TABLE IF EXISTS `partners`;
-CREATE TABLE `partners` (
-                            `id` int(11) UNSIGNED NOT NULL,
-                            `name` varchar(255) NOT NULL,
-                            `reg_nr` int(11) UNSIGNED NOT NULL,
-                            `email` varchar(255) NOT NULL,
-                            `phone` varchar(255) NOT NULL,
-                            `activity` varchar(255) NOT NULL,
-                            `activity_details` varchar(255) NOT NULL,
-                            `location` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `partners` (
+    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL,
+    `reg_nr` int(11) UNSIGNED NOT NULL,
+    `email` varchar(255) NOT NULL,
+    `phone` varchar(255) NOT NULL,
+    `activity` int(11) NOT NULL,
+    `location` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `activity` (`activity`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Andmete tõmmistamine tabelile `partners`
 --
 
-INSERT INTO `partners` (`id`, `name`, `reg_nr`, `email`, `phone`, `activity`, `activity_details`, `location`) VALUES
-(1, 'Mark Otto', 12345, 'mark@otto.com', '1234567', 'seinad', 'kipsseinad', 'üle Eesti'),
-(2, 'Mark Otto', 12345, 'mark@otto.com', '1234567	', 'seinad', 'puitseinad', 'üle Eesti'),
-(3, 'Margaret Hamilton	', 12345, 'info@hamilton.com', '1234567', 'aknad', 'plastaknad', 'Tartumaa'),
-(4, 'John Klark', 12345, 'john@clark.com', '1234567', 'aknad', 'puitaknad', 'Võrumaa');
+INSERT INTO `partners` (`id`, `name`, `reg_nr`, `email`, `phone`, `activity`, `location`) VALUES
+(6, 'Mark Otto', 12345, 'mark@otto.com', '1234567', 1, 'üle Eesti'),
+(7, 'Margaret Hamilton', 12345, 'info@hamilton.com', '1234567', 2, 'Tartumaa'),
+(8, 'John Klark', 12345, 'john@clark.com', '1234567', 2, 'Võrumaa');
 
 --
--- Indeksid tõmmistatud tabelitele
+-- Tõmmistatud tabelite piirangud
 --
 
 --
--- Indeksid tabelile `partners`
+-- Piirangud tabelile `partners`
 --
 ALTER TABLE `partners`
-    ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT tõmmistatud tabelitele
---
-
---
--- AUTO_INCREMENT tabelile `partners`
---
-ALTER TABLE `partners`
-    MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+    ADD CONSTRAINT `partners_ibfk_1` FOREIGN KEY (`activity`) REFERENCES `activity` (`id`);
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
