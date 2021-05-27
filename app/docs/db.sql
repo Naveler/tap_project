@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Loomise aeg: Mai 27, 2021 kell 11:33 EL
+-- Loomise aeg: Mai 27, 2021 kell 01:19 PL
 -- Serveri versioon: 10.4.19-MariaDB
 -- PHP versioon: 7.4.19
 
@@ -70,7 +70,7 @@ INSERT INTO `activity_details` (`id`, `name`) VALUES
 
 DROP TABLE IF EXISTS `partners`;
 CREATE TABLE IF NOT EXISTS `partners` (
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `reg_nr` int(11) UNSIGNED NOT NULL,
     `email` varchar(255) NOT NULL,
@@ -90,6 +90,30 @@ INSERT INTO `partners` (`id`, `name`, `reg_nr`, `email`, `phone`, `activity`, `l
 (7, 'Margaret Hamilton', 12345, 'info@hamilton.com', '1234567', 2, 'Tartumaa'),
 (8, 'John Klark', 12345, 'john@clark.com', '1234567', 2, 'Võrumaa');
 
+-- --------------------------------------------------------
+
+--
+-- Tabeli struktuur tabelile `partner_activity`
+--
+
+DROP TABLE IF EXISTS `partner_activity`;
+CREATE TABLE IF NOT EXISTS `partner_activity` (
+    `partner_id` int(11) NOT NULL,
+    `activity_id` int(11) NOT NULL,
+    `activity_details_id` int(11) NOT NULL,
+    KEY `activity_id` (`activity_id`),
+    KEY `activity_details_id` (`activity_details_id`),
+    KEY `partner_id` (`partner_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Andmete tõmmistamine tabelile `partner_activity`
+--
+
+INSERT INTO `partner_activity` (`partner_id`, `activity_id`, `activity_details_id`) VALUES
+(7, 2, 3),
+(7, 2, 4);
+
 --
 -- Tõmmistatud tabelite piirangud
 --
@@ -99,5 +123,13 @@ INSERT INTO `partners` (`id`, `name`, `reg_nr`, `email`, `phone`, `activity`, `l
 --
 ALTER TABLE `partners`
     ADD CONSTRAINT `partners_ibfk_1` FOREIGN KEY (`activity`) REFERENCES `activity` (`id`);
+
+--
+-- Piirangud tabelile `partner_activity`
+--
+ALTER TABLE `partner_activity`
+    ADD CONSTRAINT `partner_activity_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`),
+  ADD CONSTRAINT `partner_activity_ibfk_2` FOREIGN KEY (`activity_details_id`) REFERENCES `activity_details` (`id`),
+  ADD CONSTRAINT `partner_activity_ibfk_3` FOREIGN KEY (`partner_id`) REFERENCES `partners` (`id`);
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
