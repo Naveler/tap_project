@@ -13,8 +13,10 @@ class Partners extends Controller
 
     public function index(){
         // echo 'index method is loaded<br>';
+        $partners = $this->pagesModel->getPatners();
         $data = array(
             'title' => 'Koostööpartnerid',
+            'partners' => $partners
         );
         $this->view('partners/index', $data);
     }
