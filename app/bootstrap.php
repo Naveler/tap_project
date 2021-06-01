@@ -1,6 +1,11 @@
 <?php
+// errors
+error_reporting(E_ALL & ~E_NOTICE);
 // config file
 require_once 'config/constants.php';
+require_once 'helpers/url_helper.php';
+// helpers
+require_once 'helpers/session_helper.php';
 // load libraries
 require_once 'libs/Core.php';
 require_once 'libs/Controller.php';
